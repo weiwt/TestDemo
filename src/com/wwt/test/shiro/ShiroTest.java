@@ -1,6 +1,7 @@
 package com.wwt.test.shiro;
 
 import com.wwt.test.CommonTest;
+import com.wwt.test.service.ShiroService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.config.IniSecurityManagerFactory;
@@ -8,6 +9,7 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ShiroTest extends CommonTest {
 
@@ -49,11 +51,12 @@ public class ShiroTest extends CommonTest {
         String name = principal.getClass().getName();
         sysOut(name);
         sysOut(principal);
-
     }
 
     @Test
-    public void realmTest(){
-
+    public void annotationRealmTest(){
+        ShiroService shiroService = (ShiroService) appContext.getBean("shiroService");
+        shiroService.login();
+        shiroService.run();
     }
 }

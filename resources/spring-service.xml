@@ -4,12 +4,47 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <aop:aspectj-autoproxy />
 
     <!-- 自动扫描与装配Service -->
     <context:component-scan base-package="com.wwt.test.aspectj" />
     <context:component-scan base-package="com.wwt.test.service" />
+
+
+    <!--shiro-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager" />
+    </bean>
+    <bean id="sessionManager" class="org.apache.shiro.session.mgt.DefaultSessionManager" />
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+    </bean>
+    <!--<bean id="myRealm" class="org.apache.shiro.realm.text.IniRealm">-->
+        <!--<property name="resourcePath" value="classpath:TestShiro2.ini" />-->
+    <!--</bean>-->
+    <bean id="myRealm1" class="com.wwt.test.shiro.MyRealm"/>
+    <bean id="myRealm2" class="com.wwt.test.shiro.MyRealm2"/>
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager" />
+        <property name="arguments" ref="securityManager" />
+    </bean>
+    <bean id="securityManager" class="org.apache.shiro.mgt.DefaultSecurityManager">
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="sessionManager" ref="sessionManager" />
+
+        <property name="realms">
+            <list>
+                <bean class="com.wwt.test.shiro.MyRealm"/>
+                <bean class="com.wwt.test.shiro.MyRealm2"/>
+            </list>
+        </property>
+    </bean>
 
 </beans>

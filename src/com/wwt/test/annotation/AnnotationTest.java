@@ -11,6 +11,7 @@ public class AnnotationTest extends CommonTest{
     @Test
     public void test1(){
         boolean annotationPresent = AnnotationTest.class.isAnnotationPresent(MyAnnotation.class);
+        Test annotation1 = AnnotationTest.class.getAnnotation(Test.class);
         if (annotationPresent) {
             MyAnnotation annotation = AnnotationTest.class.getAnnotation(MyAnnotation.class);
             Class<? extends Annotation> aClass = annotation.annotationType();

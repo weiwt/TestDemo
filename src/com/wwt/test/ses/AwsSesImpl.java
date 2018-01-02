@@ -52,12 +52,9 @@ public class AwsSesImpl {
         Destination destination = new Destination().withToAddresses(mailTemplate.getTo());
 
         // Create the subject and body of the message.
-        Content subject = new Content(mailTemplate.getSubject());
-        subject.setCharset("utf-8");
-        Content textBody = new Content(mailTemplate.getBody());
-        textBody.setCharset("utf-8");
-        Body body = null;
-
+        Content subject = new Content().withCharset("UTF-8").withData(mailTemplate.getSubject());
+        Content textBody = new Content().withCharset("UTF-8").withData(mailTemplate.getBody());
+        Body body = new Body().withText(textBody);
         // Create a message with the specified subject and body.
         Message message = new Message().withSubject(subject).withBody(body);
 

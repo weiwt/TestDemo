@@ -72,16 +72,19 @@ public class AwsSesImpl {
              * TransferManager manages a pool of threads, so we create a
              * single instance and share it throughout our application.
              */
-            ProfileCredentialsProvider credentialsProvider = new ProfileCredentialsProvider();
-            try {
-                credentialsProvider.getCredentials();
-            } catch (Exception e) {
-                throw new AmazonClientException(
-                        "Cannot load the credentials from the credential profiles file. " +
-                                "Please make sure that your credentials file is at the correct " +
-                                "location (~/.aws/credentials), and is in valid format.",
-                        e);
-            }
+
+//            ProfileCredentialsProvider credentialsProvider = new ProfileCredentialsProvider();
+//            try {
+//                credentialsProvider.getCredentials();
+//            } catch (Exception e) {
+//                throw new AmazonClientException(
+//                        "Cannot load the credentials from the credential profiles file. " +
+//                                "Please make sure that your credentials file is at the correct " +
+//                                "location (~/.aws/credentials), and is in valid format.",
+//                        e);
+//            }
+
+            MyCredentialsProvider credentialsProvider = new MyCredentialsProvider();
 
             // Instantiate an Amazon SES client, which will make the service call with the supplied AWS credentials.
             AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard()
